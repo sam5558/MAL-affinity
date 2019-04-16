@@ -18,9 +18,9 @@ Before running the script, install these packages :
 `pip3 install json`
 
 Also, edit the script with your favourite editor, then change this : 
-username = "Guts__"
-to your username :
 username = "myusername"
+with your username
+
 
 P.S : This script takes time to get calculate your users affinity, so the more you have friends on MyAnimeList the more you'll have to wait until the script gives you the affinity values.
 
