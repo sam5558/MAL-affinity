@@ -9,7 +9,7 @@ from aniffinity.exceptions import RateLimitExceededError
 from aniffinity.exceptions import AniffinityException
 from tabulate import tabulate
 
-username = "Guts__"
+username = "myusername"
 success = False
 
 
