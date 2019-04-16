@@ -8,7 +8,7 @@ Also special thanks for https://github.com/purplepinapples/mal-affinity
 
 
 # How to use it 
-This script works with Python3.6+.
+This script works with Python3.6+. Tested on Linux Only.
 
 Before running the script, install these packages :
 `pip3 install collections`
