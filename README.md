@@ -1,5 +1,5 @@
 # MAL-affinity
-MyAnimeList Affinity fetcher with all your friends
+MyAnimeList Affinity fetcher with a tabulated output of all your friends affinity
 
 
 # Credits 
