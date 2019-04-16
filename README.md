@@ -24,4 +24,8 @@ username = "myusername"
 
 P.S : This script takes time to get calculate your users affinity, so the more you have friends on MyAnimeList the more you'll have to wait until the script gives you the affinity values.
 
+# Screenshot 
+
+![Affinity Output](affinity-output.png)
+
 # Thanks 
