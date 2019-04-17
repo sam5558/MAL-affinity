@@ -10,7 +10,7 @@ from collections import OrderedDict
 
 from jikanpy import Jikan
 from aniffinity import Aniffinity
-from aniffinity.exceptions import RateLimitExceededError, AniffinityException, NoAffinityError
+from aniffinity.exceptions import RateLimitExceededError, AniffinityException, NoAffinityError, InvalidUserError
 from tabulate import tabulate
 
 
@@ -21,7 +21,6 @@ if len(sys.argv) <= 1:
     sys.exit(1)
 
 username = sys.argv[1].strip()
-success = False
 
 jikan = Jikan()
 
@@ -57,6 +56,11 @@ while len(friend_names) > 0: # while the list isn't empty
         continue
     except NoAffinityError as ne:
         print("{}".format(ne))
+        # ignore this user
+        friend_names.remove(friend)
+        continue
+    except InvalidUserError:
+        print("Couldnt download list for {}. This may be because their list is private.".format(friend))
         # ignore this user
         friend_names.remove(friend)
         continue
