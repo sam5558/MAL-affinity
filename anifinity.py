@@ -1,63 +1,81 @@
-#!/usr/bin/python3.6
+#!/usr/bin/env python3
 
-from collections import OrderedDict
+import sys
 import json
+import time
+from decimal import DecimalException
+
 import objectpath
+from collections import OrderedDict
+
 from jikanpy import Jikan
 from aniffinity import Aniffinity
-from aniffinity.exceptions import RateLimitExceededError
-from aniffinity.exceptions import AniffinityException
+from aniffinity.exceptions import RateLimitExceededError, AniffinityException, NoAffinityError, InvalidUserError
 from tabulate import tabulate
 
-username = "myusername"
-success = False
 
+# get username from command line
+if len(sys.argv) <= 1:
+    print("I expected a username but you didn't give me one!")
+    print('Example: python3 anifinity.py "Guts__"')
+    sys.exit(1)
 
-myfriends = {}
-myaffi = {}
-myshared = {}
-myresult = {}
+username = sys.argv[1].strip()
 
 jikan = Jikan()
 
-af = Aniffinity(username, base_service="MyAnimeList", wait_time=3)
-
+print("Downloading your friends from MyAnimeList...")
 # friends info
 ufriends = jikan.user(username=username, request='friends')
+print("Downloaded {} friends".format(len(ufriends["friends"])))
 
-for i in range(len(ufriends["friends"])):
-    myfriends[i] = ufriends["friends"][i]["username"]
-    for _ in range(2):
-        try:
-            myaffi[i],myshared[i] = af.calculate_affinity(myfriends[i], service="MyAnimeList")
-            myresult[myfriends[i]] = round(myaffi[i],2)
-        except RateLimitExceededError:
-            time.sleep(5)
-            continue
+# Download the users myanimelist
+print("Downloading {}'s animelist...".format(username))
+af = Aniffinity(username, base_service="MyAnimeList", wait_time=2)
 
-            # Any other aniffinity exception.
-            # Affinity can't be calculated for some reason.
-            # ``AniffinityException`` is the base exception class for
-            # all aniffinity exceptions
-        except AniffinityException:
-            break
+# e.g. results = {"some_user": affinity_val}
+results = {}
 
-            # Exceptions not covered by aniffinity. Not sure what
-            # you could do here. Feel free to handle however you like
-        except Exception as e:
-            print("Exception: `{}`".format(e))
-            break
+# create a list of friend names
+friend_names = [f["username"] for f in ufriends["friends"]]
 
-            # Success!
-        else:
-            success = True
-            break
+while len(friend_names) > 0: # while the list isn't empty
+    friend = friend_names[0] # get the first name
+    print("Comparing {}'s list to {}...".format(username, friend))
+    try:
+        # calculate affinity
+        affinity, shared = af.calculate_affinity(friend, service="MyAnimeList")
+        # save the result
+        results[friend] = round(affinity, 2)
+        # remove that friend from the list
+        friend_names.remove(friend)
+    except RateLimitExceededError:
+        print("We exceeded the rate limit!")
+        # wait for a while and then try again
+        time.sleep(10)
+        continue
+    except NoAffinityError as ne:
+        print("{}".format(ne))
+        # ignore this user
+        friend_names.remove(friend)
+        continue
+    except InvalidUserError:
+        print("Couldnt download list for {}. This may be because their list is private.".format(friend))
+        # ignore this user
+        friend_names.remove(friend)
+        continue
+    except DecimalException:
+        # see here:
+        # https://github.com/erkghlerngm44/aniffinity/blob/master/aniffinity/calcs.py#L32
+        # this can happen when a user has no ratings or rates everything the same
+        print("Division by zero error while trying to process list for {}...".format(friend))
+        # ignore this user
+        friend_names.remove(friend)
+        continue
+    except Exception as e:
+        # exit on any other error
+        print("Exception for {}: `{}`".format(friend, e))
+        break
 
-        # ``success`` will still be ``False`` if affinity can't been calculated.
-        # If this is the case, you'll want to stop doing anything with this person
-        # and move onto the next, so use the statement that will best accomplish this,
-        # given the layout of your script
-
-newresult = OrderedDict(sorted(myresult.items(), key=lambda t: t[1]),reverse=True)
-headers = ["Friend", "Affinity"]
-print(tabulate([v for v in newresult.items()],headers=headers))
+newresult = OrderedDict(sorted(results.items(), key=lambda t: t[1]))
+print(tabulate([v for v in newresult.items()], headers=["Friend", "Affinity"]))
