@@ -5,7 +5,7 @@ MyAnimeList Affinity fetcher with a tabulated output of all your friends affinit
 ### Credits 
 
 Credits to https://github.com/erkghlerngm44/aniffinity and https://github.com/AWConant/jikanpy.
-Also special thanks for https://github.com/purplepinapples/mal-affinity
+Also special thanks for https://github.com/purplepinapples/mal-affinity (espacially for his review and contribution on this code) !
 
 
 ### How to use it 
