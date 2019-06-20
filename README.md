@@ -32,7 +32,7 @@ P.S : This script has flawbacks :
 - It grabs a maximum of 100 friends for comparison (can be fixed)
 
 ## Screenshot 
-![MAL Comparison] (mal-affinity-1.png)
+![MAL Comparison] (https://github.com/sam5558/MAL-affinity/blob/master/mal-affinity-1.png)
 ![Affinity Output](affinity-output.png)
 
 ### Thank you
