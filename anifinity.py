@@ -22,7 +22,7 @@ if len(sys.argv) <= 1:
 
 username = sys.argv[1].strip()
 
-if len(sys.argv) <= 3:
+if len(sys.argv) <= 2:
     usr = username
 else:
     usr = sys.argv[2].strip()
