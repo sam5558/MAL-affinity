@@ -22,11 +22,17 @@ if len(sys.argv) <= 1:
 
 username = sys.argv[1].strip()
 
+if len(sys.argv) <= 3:
+    usr = username
+else:
+    usr = sys.argv[2].strip()
+
 jikan = Jikan()
 
 print("Downloading your friends from MyAnimeList...")
 # friends info
-ufriends = jikan.user(username=username, request='friends')
+ufriends = jikan.user(username=usr, request='friends')
+
 print("Downloaded {} friends".format(len(ufriends["friends"])))
 
 # Download the users myanimelist
