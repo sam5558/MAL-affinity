@@ -23,7 +23,13 @@ Give your MyAnimeList username on command line:
 
 E.g.: `python3 anifinity.py Guts__`
 
-P.S : This script takes time to get calculate your users affinity, so the more you have friends on MyAnimeList the more you'll have to wait until the script gives you the affinity values.
+Alternatively, you can now compare your affinity with your friends friends. To do so you can type :
+
+E.g.: `python3 anifinity.py Guts__ KingDespe`
+
+P.S : This script has flawbacks : 
+- It takes time to get calculate your users affinity, so the more you have friends on MyAnimeList the more you'll have to wait until the script gives you the affinity values.
+- It grabs a maximum of 100 friends for comparison (can be fixed)
 
 ## Screenshot 
 
