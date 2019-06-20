@@ -31,7 +31,9 @@ P.S : This script has flawbacks :
 - It takes time to get calculate your users affinity, so the more you have friends on MyAnimeList the more you'll have to wait until the script gives you the affinity values.
 - It grabs a maximum of 100 friends for comparison (can be fixed)
 
-## Screenshot 
+## Screenshots 
 
+![Comparison](mal-affinity-1.png)
+![Affinity-Output](affinity-output.png)
 
 ### Thank you
